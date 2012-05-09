@@ -10,12 +10,35 @@ from BeautifulSoup import BeautifulSoup
 from .helpers import clean_html
 
 
-class Search(object):
-    url = 'http://www.computrabajo.com.pe/bt-ofrlistado.htm'
+COUNTRIES = {
+        'cl': 'http://www.computrabajo.cl/',
+        'es': 'http://www.computrabajo.es/',
+        'cr': 'http://www.computrabajo.co.cr/',
+        'ar': 'http://www.computrabajo.com.ar/',
+        'mx': 'http://www.computrabajo.com.mx/',
+        'pe': 'http://www.computrabajo.com.pe/',
+        've': 'http://www.computrabajo.com.ve/',
+        'bo': 'http://www.bo.computrabajo.com/',
+        'co': 'http://www.computrabajo.com.co/',
+        'cu': 'http://www.cu.computrabajo.com/',
+        'ec': 'http://www.computrabajo.com.ec/',
+        'sv': 'http://www.sv.computrabajo.com/',
+        'gt': 'http://www.gt.computrabajo.com/',
+        'hn': 'http://www.hn.computrabajo.com/',
+        'ni': 'http://www.ni.computrabajo.com/',
+        'pa': 'http://www.computrabajo.com.pa/',
+        'py': 'http://www.py.computrabajo.com/',
+        'pr': 'http://www.computrabajo.com.pr/',
+        'do': 'http://www.computrabajo.com.do/',
+        'uy': 'http://www.uy.computrabajo.com/',
+        }
 
-    def __init__(self, query, country='pe'):
+
+class Search(object):
+
+    def __init__(self, query, country):
+        self.url = urljoin(COUNTRIES.get(country, 'pe'), 'bt-ofrlistado.htm')
         self._search(query)
-        self.country = country
 
     def _search(self, query):
         params = urllib.urlencode({'BqdPalabras': query})

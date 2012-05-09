@@ -18,7 +18,7 @@ class TestComputrabajoListadoSearch(object):
         html = open(os.path.join(HERE, 'html/listado.html'))
         fake = fudge.Fake('urlopen', callable=True).with_args('http://www.computrabajo.com.pe/bt-ofrlistado.htm', 'BqdPalabras=Python').returns(html)
         with fudge.patched_context(urllib, 'urlopen', fake):
-            self.search = Search('Python')
+            self.search = Search('Python', country='pe')
 
     def test_titles_listado(self):
         titles = list(self.search.titles())

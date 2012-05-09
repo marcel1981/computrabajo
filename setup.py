@@ -5,7 +5,7 @@ from distutils.core import setup
 
 setup(
     name='computrabajo',
-    version='0.1dev',
+    version='0.2dev',
     author='Mario Rodas',
     author_email='rodasmario2@gmail.com',
     packages=['computrabajo'],

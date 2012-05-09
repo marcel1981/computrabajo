@@ -7,7 +7,7 @@ A pseudo-api for computrabajo.com
 ::
 
     >>> from computrabajo.api import Search
-    >>> labs = Search('laboratorio')
+    >>> labs = Search('laboratorio', country='pe')
     >>> labs.jobs()
     [
       {'title': 'Asistente de laboratorio secreto',
