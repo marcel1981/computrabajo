@@ -2,6 +2,8 @@
 Computrabajo
 ============
 
+.. image:: https://secure.travis-ci.org/marsam/computrabajo.png?branch=master
+
 A pseudo-api for computrabajo.com
 
 ::
