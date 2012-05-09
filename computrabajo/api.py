@@ -4,8 +4,7 @@
 import urllib
 from urlparse import urljoin
 
-# from bs4 import BeautifulSoup
-from BeautifulSoup import BeautifulSoup
+from bs4 import BeautifulSoup
 
 from .helpers import clean_html
 

@@ -13,7 +13,7 @@ setup(
     description= 'pseudo-api for computrabajo.com',
     long_description=open('README.rst').read(),
     install_requires=[
-        'BeautifulSoup',
+        'BeautifulSoup4',
     ],
 )
 
