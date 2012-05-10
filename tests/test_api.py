@@ -22,7 +22,7 @@ class TestComputrabajoListadoSearch(object):
             self.search = Search('python', country='pe')
 
     def test_endpoint_url(self):
-        assert self.search.endpoint.url == 'http://www.computrabajo.com.pe/bt-ofrlistado.htm?BqdPalabras=python'
+        assert self.search._endpoint.url == 'http://www.computrabajo.com.pe/bt-ofrlistado.htm?BqdPalabras=python'
 
     def test_titles_listado(self):
         titles = self.search.titles()

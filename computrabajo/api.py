@@ -37,13 +37,13 @@ class Search(object):
     def __init__(self, query, country):
         self.query = query
         self.country = country
-        self.url = self.endpoint.url
+        self.url = self._endpoint.url
         self.html = urllib.urlopen(self.url).read()
         self.__doc = parse(self.url).getroot()
 
 
     @property
-    def endpoint(self):
+    def _endpoint(self):
         f = furl(COUNTRIES.get(self.country)).join('bt-ofrlistado.htm')
         f.args['BqdPalabras']= self.query
         return f
