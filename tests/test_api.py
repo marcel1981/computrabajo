@@ -5,6 +5,7 @@ import os
 import urllib
 
 import fudge
+from py.test import skip
 
 from computrabajo.api import Search
 
@@ -16,9 +17,9 @@ class TestComputrabajoListadoSearch(object):
 
     def setup_method(self, method):
         html = open(os.path.join(HERE, 'html/listado.html'))
-        fake = fudge.Fake('urlopen', callable=True).with_args('http://www.computrabajo.com.pe/bt-ofrlistado.htm', 'BqdPalabras=Python').returns(html)
+        fake = fudge.Fake('urlopen', callable=True).with_args('http://www.computrabajo.com.pe/bt-ofrlistado.htm?BqdPalabras=python').returns(html)
         with fudge.patched_context(urllib, 'urlopen', fake):
-            self.search = Search('Python', country='pe')
+            self.search = Search('python', country='pe')
 
     def test_titles_listado(self):
         titles = list(self.search.titles())
@@ -38,21 +39,20 @@ class TestComputrabajoListadoSearch(object):
                 'Listado de empresas']
 
     def test_links_listado(self):
-        links = list(self.search.links())
-        assert links == \
-                [u'http://www.computrabajo.com.pe/bt-ofrd-mmazan-21444.htm?BqdPalabras=python',
-                u'http://www.computrabajo.com.pe/bt-ofrd-mmazan-64332.htm?BqdPalabras=python',
-                u'http://www.computrabajo.com.pe/bt-ofrd-peruserversac-57184.htm?BqdPalabras=python',
-                u'http://www.computrabajo.com.pe/bt-ofrd-primerospuestos-564692.htm?BqdPalabras=python',
-                u'http://www.computrabajo.com.pe/bt-ofrd-avanticape-293068.htm?BqdPalabras=python',
-                u'http://www.computrabajo.com.pe/bt-ofrd-mmazan-107220.htm?BqdPalabras=python',
-                u'http://www.computrabajo.com.pe/bt-ofrd-obiettivolavoro-1365268.htm?BqdPalabras=python',
-                u'http://www.computrabajo.com.pe/bt-ofrd-rudiyard-0.htm?BqdPalabras=python',
-                u'http://www.computrabajo.com.pe/bt-ofrd-phantasia-50036.htm?BqdPalabras=python',
-                u'http://www.computrabajo.com.pe/bt-ofrd-nexcorp-64332.htm?BqdPalabras=python',
-                u'http://www.computrabajo.com.pe/bt-ofrd-andresweb-7148.htm?BqdPalabras=python',
-                u'http://www.computrabajo.com.pe/bt-ofrd-waragoner-7148.htm?BqdPalabras=python',
-                u'http://www.computrabajo.com.pe/bt-empresas.htm']
+        # skip('Sorry no yet')
+        links = self.search.links()
+        assert links == ['http://www.computrabajo.com.pe/bt-ofrd-mmazan-21444.htm?BqdPalabras=python',
+                 'http://www.computrabajo.com.pe/bt-ofrd-mmazan-64332.htm?BqdPalabras=python',
+                 'http://www.computrabajo.com.pe/bt-ofrd-peruserversac-57184.htm?BqdPalabras=python',
+                 'http://www.computrabajo.com.pe/bt-ofrd-primerospuestos-564692.htm?BqdPalabras=python',
+                 'http://www.computrabajo.com.pe/bt-ofrd-avanticape-293068.htm?BqdPalabras=python',
+                 'http://www.computrabajo.com.pe/bt-ofrd-mmazan-107220.htm?BqdPalabras=python',
+                 'http://www.computrabajo.com.pe/bt-ofrd-obiettivolavoro-1365268.htm?BqdPalabras=python',
+                 'http://www.computrabajo.com.pe/bt-ofrd-rudiyard-0.htm?BqdPalabras=python',
+                 'http://www.computrabajo.com.pe/bt-ofrd-phantasia-50036.htm?BqdPalabras=python',
+                 'http://www.computrabajo.com.pe/bt-ofrd-nexcorp-64332.htm?BqdPalabras=python',
+                 'http://www.computrabajo.com.pe/bt-ofrd-andresweb-7148.htm?BqdPalabras=python',
+                 'http://www.computrabajo.com.pe/bt-ofrd-waragoner-7148.htm?BqdPalabras=python']
 
     def test__listado(self):
         descriptions = self.search.descriptions()

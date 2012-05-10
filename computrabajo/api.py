@@ -4,6 +4,8 @@
 import urllib
 from urlparse import urljoin
 
+from furl import furl
+from lxml.html import parse
 from bs4 import BeautifulSoup
 
 from .helpers import clean_html
@@ -36,13 +38,15 @@ COUNTRIES = {
 class Search(object):
 
     def __init__(self, query, country):
-        self.url = urljoin(COUNTRIES.get(country), 'bt-ofrlistado.htm')
-        self._search(query)
+        self.__setup(query, country)
 
-    def _search(self, query):
-        params = urllib.urlencode({'BqdPalabras': query})
-        self.html = urllib.urlopen(self.url, params).read()
-        return
+    def __setup(self, query, country):
+        endpoint = furl(COUNTRIES.get(country)).join('bt-ofrlistado.htm')
+        endpoint.args['BqdPalabras']= query
+        self.url = endpoint.url
+        self.html = urllib.urlopen(self.url).read()
+        self.__doc = parse(self.url).getroot()
+
 
     def descriptions(self):
         soup = BeautifulSoup(self.html)
@@ -63,10 +67,8 @@ class Search(object):
         return (clean_html(str(title)) for title in titles)
 
     def links(self):
-        soup = BeautifulSoup(self.html)
-        content = soup.find('table', {'cellpadding': '2'})
-        links = [c.find('a').get('href') for c in content.findAll('td') if c.find('a') != None]
-        return (urljoin(self.url, link) for link in links)
+        links = [c.get('href') for c in self. __doc.xpath('//td/font/b//a')]
+        return [urljoin(self.url, link) for link in links]
 
     def jobs(self):
         # TODO: Clean this
