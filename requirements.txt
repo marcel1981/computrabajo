@@ -1,3 +1,4 @@
 fudge
 pytest
-BeautifulSoup4
+furl
+lxml

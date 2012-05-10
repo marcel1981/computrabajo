@@ -21,7 +21,8 @@ setup(
     description= 'pseudo-api for computrabajo.com',
     long_description=open('README.rst').read(),
     install_requires=[
-        'BeautifulSoup4',
+        'lxml',
+        'furl',
     ],
     classifiers = [
         'Intended Audience :: Developers',
