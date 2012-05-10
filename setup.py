@@ -12,7 +12,7 @@ if sys.version_info >= (3,):
 
 setup(
     name='computrabajo',
-    version='0.2.1',
+    version='0.3',
     author='Mario Rodas',
     author_email='rodasmario2@gmail.com',
     url='https://github.com/marsam/computrabajo',
