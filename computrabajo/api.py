@@ -51,8 +51,7 @@ class Search(object):
     def descriptions(self):
         return [d.text_content() for d in self.__doc.xpath('//td/p/font')]
 
-    def titles(self):
-        """Return a generator of the jobs titles"""
+    def positions(self):
         return [c.text_content() for c in self.__doc.xpath('//td/font/b//a')]
 
     def links(self):
@@ -61,8 +60,8 @@ class Search(object):
     def jobs(self):
         # TODO: Clean this
         return [
-                {'title': title, 'description': description, 'link': link }
-                for title, description, link in zip(self.titles(), self.descriptions(), self.links())
+                {'position': position, 'description': description, 'link': link }
+                for position, description, link in zip(self.positions(), self.descriptions(), self.links())
                 ]
 
 

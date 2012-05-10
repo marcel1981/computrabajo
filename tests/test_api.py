@@ -25,8 +25,8 @@ class TestComputrabajoListadoSearch(object):
         assert self.search._endpoint.url == 'http://www.computrabajo.com.pe/bt-ofrlistado.htm?BqdPalabras=python'
 
     def test_titles_listado(self):
-        titles = self.search.titles()
-        assert titles == \
+        positions = self.search.positions()
+        assert positions == \
                 [u'LAMP Python Developer',
                  u'QA Engineer',
                  u'Soporte en Mantenimiento de Software',
