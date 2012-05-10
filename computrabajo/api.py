@@ -36,7 +36,7 @@ COUNTRIES = {
 class Search(object):
 
     def __init__(self, query, country):
-        self.url = urljoin(COUNTRIES.get(country, 'pe'), 'bt-ofrlistado.htm')
+        self.url = urljoin(COUNTRIES.get(country), 'bt-ofrlistado.htm')
         self._search(query)
 
     def _search(self, query):
