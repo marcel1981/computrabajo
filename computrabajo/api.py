@@ -38,15 +38,18 @@ COUNTRIES = {
 class Search(object):
 
     def __init__(self, query, country):
-        self.__setup(query, country)
-
-    def __setup(self, query, country):
-        endpoint = furl(COUNTRIES.get(country)).join('bt-ofrlistado.htm')
-        endpoint.args['BqdPalabras']= query
-        self.url = endpoint.url
+        self.query = query
+        self.country = country
+        self.url = self.endpoint.url
         self.html = urllib.urlopen(self.url).read()
         self.__doc = parse(self.url).getroot()
 
+
+    @property
+    def endpoint(self):
+        f = furl(COUNTRIES.get(self.country)).join('bt-ofrlistado.htm')
+        f.args['BqdPalabras']= self.query
+        return f
 
     def descriptions(self):
         soup = BeautifulSoup(self.html)

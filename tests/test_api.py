@@ -21,6 +21,9 @@ class TestComputrabajoListadoSearch(object):
         with fudge.patched_context(urllib, 'urlopen', fake):
             self.search = Search('python', country='pe')
 
+    def test_endpoint_url(self):
+        assert self.search.endpoint.url == 'http://www.computrabajo.com.pe/bt-ofrlistado.htm?BqdPalabras=python'
+
     def test_titles_listado(self):
         titles = list(self.search.titles())
         assert titles == \
