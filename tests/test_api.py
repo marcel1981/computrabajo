@@ -5,7 +5,7 @@ import os
 import urllib
 
 import fudge
-from py.test import skip
+# from py.test import skip
 
 from computrabajo.api import Search
 
@@ -25,24 +25,22 @@ class TestComputrabajoListadoSearch(object):
         assert self.search.endpoint.url == 'http://www.computrabajo.com.pe/bt-ofrlistado.htm?BqdPalabras=python'
 
     def test_titles_listado(self):
-        titles = list(self.search.titles())
+        titles = self.search.titles()
         assert titles == \
-                ['LAMP  Python  Developer',
-                'QA Engineer',
-                'Soporte en Mantenimiento de Software',
-                'Programador T\xc3\xa9cnico (PRO - T)',
-                'It Support Linux',
-                'Web Developer',
-                'Programador T\xc3\xa9cnico - C\xc3\xb3digo (PRO - T)',
-                'Practicante Sistemas/Programaci\xc3\xb3n',
-                'Programador PHP',
-                'Docentes Desarrollo WEB 2.0',
-                'Se requiere practicante de sistemas',
-                '\xc2\xa1Program\xc3\xa1 en PHP desde las monta\xc3\xb1as!',
-                'Listado de empresas']
+                [u'LAMP Python Developer',
+                 u'QA Engineer',
+                 u'Soporte en Mantenimiento de Software',
+                 u'Programador T\xe9cnico (PRO - T)',
+                 u'It Support Linux',
+                 u'Web Developer',
+                 u'Programador T\xe9cnico - C\xf3digo (PRO - T)',
+                 u'Practicante Sistemas/Programaci\xf3n',
+                 u'Programador PHP',
+                 u'Docentes Desarrollo WEB 2.0',
+                 u'Se requiere practicante de sistemas',
+                 u'\xa1Program\xe1 en PHP desde las monta\xf1as!']
 
     def test_links_listado(self):
-        # skip('Sorry no yet')
         links = self.search.links()
         assert links == ['http://www.computrabajo.com.pe/bt-ofrd-mmazan-21444.htm?BqdPalabras=python',
                  'http://www.computrabajo.com.pe/bt-ofrd-mmazan-64332.htm?BqdPalabras=python',
@@ -58,8 +56,11 @@ class TestComputrabajoListadoSearch(object):
                  'http://www.computrabajo.com.pe/bt-ofrd-waragoner-7148.htm?BqdPalabras=python']
 
     def test__listado(self):
-        descriptions = self.search.descriptions()
-        assert descriptions.next() == \
-                'Taller Technologies Per\xc3\xba is part of the Talent Trust group, based in San Francisco with operations in Latin America, Asia and Europe. We are seeking skilled and self-motivated\nindividuals to develop and support enterprise web applications for our US client.\n\nJob Description\n- Design, develop and support web sites using LAMP/ Python , JQuery, JavaScript, YUI and HTML\n- Work with Systems Architects at our US locations (some travel may be required) and support client/owners of hosted web sites for campaign ..... (contin\xc3\xbaa)'
+        # skip('Sorry no yet')
+        desc = self.search.descriptions()
+        assert desc[0] == \
+                    u'Taller Technologies Per\xfa is part of the Talent Trust group, based in San Francisco with operations in Latin America, Asia and Europe. We are seeking skilled and self-motivated\nindividuals to develop and support enterprise web applications for our US client.\n\nJob Description\n- Design, develop and support web sites using LAMP/Python, JQuery, JavaScript, YUI and HTML\n- Work with Systems Architects at our US locations (some travel may be required) and support client/owners of hosted web sites for campaign ..... (contin\xfaa)'
+        assert desc[-1] == \
+                    u'\xbfEst\xe1s buscando un cambio laboral y de aire? En Waragon tenemos la oferta justa para ofrecerte!\nEstamos buscando programadores PHP SemiSenior, Senior y Tech Leads, para incorporarse al equipo de desarrollo de la plataforma de compras colectivas m\xe1s importante a nivel mundial.\n\nLas oficinas de la empresa se encuentran ubicadas en Santiago de Chile, Chile, y a los candidatos seleccionados se les ofrecer\xe1 un "plan starter" para la relocalizaci\xf3n a la ciudad.\n\nNos orientamos a personas con experiencia laboral o ..... (contin\xfaa)'
 
 

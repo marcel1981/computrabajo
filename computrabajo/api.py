@@ -6,9 +6,6 @@ from urlparse import urljoin
 
 from furl import furl
 from lxml.html import parse
-from bs4 import BeautifulSoup
-
-from .helpers import clean_html
 
 
 COUNTRIES = {
@@ -52,26 +49,14 @@ class Search(object):
         return f
 
     def descriptions(self):
-        soup = BeautifulSoup(self.html)
-        content = soup.find('table', {'cellpadding': '2'})
-        ajobs = [ c.find('p',{'align': 'justify'}) for c in content.findAll('td') \
-                if c.find('p',{'align': 'justify'}) != None ]
-        jobs = (clean_html(str(job)) for job in ajobs)
-        # the following deletes the warning messages
-        jobs.next()
-        jobs.next()
-        return jobs
+        return [d.text_content() for d in self.__doc.xpath('//td/p/font')]
 
     def titles(self):
         """Return a generator of the jobs titles"""
-        soup = BeautifulSoup(self.html)
-        content = soup.find('table', {'cellpadding': '2'})
-        titles = [ c.find('a') for c in content.findAll('td') if c.find('a') != None]
-        return (clean_html(str(title)) for title in titles)
+        return [c.text_content() for c in self.__doc.xpath('//td/font/b//a')]
 
     def links(self):
-        links = [c.get('href') for c in self. __doc.xpath('//td/font/b//a')]
-        return [urljoin(self.url, link) for link in links]
+        return [urljoin(self.url, link.get('href')) for link in self.__doc.xpath('//td/font/b//a')]
 
     def jobs(self):
         # TODO: Clean this
