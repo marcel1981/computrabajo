@@ -17,6 +17,7 @@ setup(
     author_email='rodasmario2@gmail.com',
     url='https://github.com/marsam/computrabajo',
     packages=['computrabajo'],
+    scripts=['bin/trabajo.py'],
     license='MIT License',
     description= 'pseudo-api for computrabajo.com',
     long_description=open('README.rst').read(),
