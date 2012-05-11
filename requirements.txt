@@ -2,3 +2,4 @@ fudge
 pytest
 furl
 lxml
+tablib

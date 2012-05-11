@@ -24,6 +24,7 @@ setup(
     install_requires=[
         'lxml',
         'furl',
+        'tablib',
     ],
     classifiers = [
         'Intended Audience :: Developers',
