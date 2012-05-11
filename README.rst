@@ -21,7 +21,7 @@ Using
     >>> from computrabajo.api import API
     >>> ct = API('pe')
     >>> lab_jobs = ct.search('laboratorio')
-    >>> lab_jobs
+    >>> lab_jobs  # doctest: +SKIP
     [
       Job(position='Asistente de laboratorio secreto',
           summary='Cientifico Loco busca asistente de laboratorio para conquistar el mundo... ',
@@ -37,4 +37,5 @@ Using
     ...
     >>>
 
+*NOTE*: Don't run this file with *doctest*
 
