@@ -16,7 +16,7 @@ Intalling
 Using
 -----
 
-::
+1. Using the pseudo-API::
 
     >>> from computrabajo.api import API
     >>> ct = API('pe')
@@ -36,6 +36,13 @@ Using
     ...    json.dump(info, f, indent=2)
     ...
     >>>
+
+2. Using from the command line::
+
+    $ trabajo.py --country pe --term secretaria --format xlsx
+
+   Now open the jobs.xlsx file.
+
 
 *NOTE*: Don't run this file with *doctest*
 
