@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import urllib
+# import urllib
 from urlparse import urljoin
+from collections import namedtuple
 
-from furl import furl
+# from furl import furl
 from lxml.html import parse
 
 
@@ -32,36 +33,63 @@ COUNTRIES = {
         }
 
 
-class Search(object):
-
-    def __init__(self, query, country):
-        self.query = query
-        self.country = country
-        self.url = self._endpoint.url
-        self.html = urllib.urlopen(self.url).read()
-        self.__doc = parse(self.url).getroot()
+class ComputrabajoError(Exception):
+    pass
 
 
-    @property
-    def _endpoint(self):
-        f = furl(COUNTRIES.get(self.country)).join('bt-ofrlistado.htm')
-        f.args['BqdPalabras']= self.query
-        return f
+class API:
+    def __init__(self, country):
+        if COUNTRIES.get(country):
+            self.country = country
+            self.homepage = COUNTRIES[country]
+        else:
+            raise ComputrabajoError,  "No computrabajo site in that country"
 
-    def descriptions(self):
-        return [d.text_content() for d in self.__doc.xpath('//td/p/font')]
+    def search(self, query, pages=1):
+        url = urljoin(self.homepage, 'bt-ofrlistado.htm?BqdPalabras={0}'.format(query))
+        result = CrawlPage(url).get_jobs()
+        return result
 
-    def positions(self):
-        return [c.text_content() for c in self.__doc.xpath('//td/font/b//a')]
 
-    def links(self):
-        return [urljoin(self.url, link.get('href')) for link in self.__doc.xpath('//td/font/b//a')]
+class CrawlPage:
 
-    def jobs(self):
-        # TODO: Clean this
+    def __init__(self, url):
+        self.url = url
+        self._root = parse(self.url).getroot()
+
+    def get_jobs(self):
+        summaries = [s.text_content() for s in self._root.xpath('//td/p/font')]
+        positions = [p.text_content() for p in self._root.xpath('//td/font/b//a')]
+        links     = [urljoin(self.url, l.get('href')) for l in self._root.xpath('//td/font/b//a')]
         return [
-                {'position': position, 'description': description, 'link': link }
-                for position, description, link in zip(self.positions(), self.descriptions(), self.links())
+                Job(**{'position': position, 'summary': summary, 'link': link }) 
+                for position, summary, link in zip(positions, summaries, links)
                 ]
 
+
+class Job(namedtuple('Job',['position', 'link', 'summary'])):
+    __slots__ = ()
+
+    @property
+    def information(self):
+        result = {}
+        root = parse(self.link).getroot()
+        result['description'] = root.xpath('//tr[6]/td[1]/p')[0].text_content()
+        result['date']        = root.xpath('//tr[8]/td[2]/font[count(*)=0]')[0].text_content()
+        result['location']    = root.xpath('//tr[9]/td[2]/font')[0].text_content()
+        result['department']  = root.xpath('//tr[10]/td[2]/font[count(*)=0]')[0].text_content()
+        result['salary']      = root.xpath('//tr[11]/td[2]/font[count(*)=0]')[0].text_content()
+        result['begin']       = root.xpath('//tr[12]/td[2]/font')[0].text_content()
+        result['duration']    = root.xpath('//tr[13]/td[2]/font')[0].text_content()
+        result['job_type']    = root.xpath('//tr[14]/td[2]/font')[0].text_content()
+        result['solicitudes'] = root.xpath('//tr[15]/td[2]/font')[0].text_content()
+        result['empresa']     = root.xpath('//tr[16]/td[2]/font/a')[0].text_content()
+        result['contact']     = root.xpath('//tr[17]/td[2]/font')[0].text_content()
+        result['phone']       = root.xpath('//tr[18]/td[2]/font')[0].text_content()
+        result['fax']         = root.xpath('//tr[19]/td[2]/font')[0].text_content()
+        result['email']       = root.xpath('//tr[20]/td[2]/img')[0].get('src')
+        return result
+
+    def __str__(self):
+        return 'Job: {0}'.format(self.position)
 
