@@ -10,7 +10,7 @@ def command():
     parser = argparse.ArgumentParser(description='Get jobs from computrabajo.com')
     parser.add_argument('-c', '--country', dest='country', required=True, help='Set computrabajo country')
     parser.add_argument('-t', '--term', dest='term', required=True, help='Job term for looking for')
-    parser.add_argument('-f', '--format', dest='format', default='xls', choices=['csv', 'json', 'yaml', 'xls'], help='Set the output file format')
+    parser.add_argument('-f', '--format', dest='format', default='xls', choices=['csv', 'json', 'yaml', 'xls', 'xlsx', 'ods'], help='Set the output file format')
     parser.add_argument('-o', '--output', dest='output', default='jobs', help='Set the output filename')
 
     args = parser.parse_args()
